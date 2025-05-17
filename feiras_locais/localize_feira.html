@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feiras - Porto Alegre</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --verde-principal: #1B4D3E;
+      --verde-hover: #14382D;
+      --fundo-claro: #FAF8F2;
+      --fundo-cartao: #FFFDF7;
+      --texto: #333;
+      --sombra: rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto);
+    }
+
+    header {
+      background-color: var(--verde-principal);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px var(--sombra);
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    nav a {
+      margin-left: 1.2rem;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--fundo-cartao);
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .feiras-layout {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    #map {
+      height: 500px;
+      flex: 1;
+      min-width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px var(--sombra);
+    }
+
+    .lista-feiras {
+      flex: 1;
+      background-color: var(--fundo-cartao);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px var(--sombra);
+    }
+
+    .lista-feiras h2 {
+      margin-top: 0;
+      color: var(--verde-principal);
+    }
+
+    .feira {
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 0;
+    }
+
+    .feira:last-child {
+      border-bottom: none;
+    }
+
+    .feira h3 {
+      margin: 0 0 0.3rem;
+      color: var(--verde-principal);
+    }
+
+    .feira p {
+      margin: 0.2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .filtro-endereco {
+      margin-bottom: 1rem;
+    }
+
+    .filtro-endereco input {
+      padding: 0.5rem;
+      width: calc(100% - 100px);
+      max-width: 300px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 0.5rem;
+    }
+
+    .filtro-endereco button {
+      padding: 0.5rem 1rem;
+      background-color: var(--verde-principal);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .filtro-endereco button:hover {
+      background-color: var(--verde-hover);
+    }
+
+    @media (max-width: 768px) {
+      .feiras-layout {
+        flex-direction: column;
+      }
+
+      #map {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="logo.png" alt="Logo Feiras Locais" style="height: 48px;">
+      <h1>Feiras Locais</h1>
+    </div>
+    <nav>
+    <a href="index.html">Início</a>
+    <a href="localize_feira.html">Localize sua Feira</a>
+    <a href="produtores.html">Encontre um Produtor</a>
+    <a href="produtos.html">Feira Online</a>
+    <a href="carrinho.html">Carrinho</a>
+    </nav>
+  </header>
+
+
+  <div class="container">
+    <div class="filtro-endereco">
+      <input type="text" id="endereco" placeholder="Digite seu endereço..." />
+      <button onclick="buscarFeiraProxima()">Pesquisar</button>
+    </div>
+
+    <div class="feiras-layout">
+      <!-- Mapa Interativo -->
+      <div id="map"></div>
+
+      <!-- Lista de Feiras -->
+      <div class="lista-feiras">
+        <h2>Feiras em Porto Alegre</h2>
+
+        <div class="feira">
+          <h3>Feira do Menino Deus</h3>
+          <p><strong>Endereço:</strong> Av. José de Alencar, 123</p>
+          <p><strong>Horário:</strong> Sábados, das 07h às 13h</p>
+        </div>
+
+        <div class="feira">
+          <h3>Feira do Bom Fim</h3>
+          <p><strong>Endereço:</strong> Rua João Telles, 50</p>
+          <p><strong>Horário:</strong> Domingos, das 08h às 14h</p>
+        </div>
+
+        <div class="feira">
+          <h3>Feira da Tristeza</h3>
+          <p><strong>Endereço:</strong> Av. Wenceslau Escobar, 789</p>
+          <p><strong>Horário:</strong> Quartas, das 16h às 21h</p>
+        </div>
+
+        <div class="feira">
+          <h3>Feira do Partenon</h3>
+          <p><strong>Endereço:</strong> Rua Bento Gonçalves, 4321</p>
+          <p><strong>Horário:</strong> Sextas, das 07h às 12h</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    const mapa = L.map('map').setView([-30.0346, -51.2177], 13); // Porto Alegre
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(mapa);
+
+    const feiras = [
+      {
+        nome: "Feira do Menino Deus",
+        endereco: "Av. José de Alencar, 123",
+        horario: "Sábados, das 07h às 13h",
+        coordenadas: [-30.0429, -51.2228]
+      },
+      {
+        nome: "Feira do Bom Fim",
+        endereco: "Rua João Telles, 50",
+        horario: "Domingos, das 08h às 14h",
+        coordenadas: [-30.0332, -51.2149]
+      },
+      {
+        nome: "Feira da Tristeza",
+        endereco: "Av. Wenceslau Escobar, 789",
+        horario: "Quartas, das 16h às 21h",
+        coordenadas: [-30.0783, -51.2484]
+      },
+      {
+        nome: "Feira do Partenon",
+        endereco: "Rua Bento Gonçalves, 4321",
+        horario: "Sextas, das 07h às 12h",
+        coordenadas: [-30.0451, -51.1733]
+      }
+    ];
+
+    feiras.forEach(feira => {
+      L.marker(feira.coordenadas)
+        .addTo(mapa)
+        .bindPopup(`<strong>${feira.nome}</strong><br>${feira.endereco}<br>${feira.horario}`);
+    });
+
+    function buscarFeiraProxima() {
+      const endereco = document.getElementById('endereco').value;
+      if (!endereco) {
+        alert('Por favor, insira um endereço.');
+        return;
+      }
+
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.length === 0) {
+            alert('Endereço não encontrado.');
+            return;
+          }
+
+          const lat = parseFloat(data[0].lat);
+          const lon = parseFloat(data[0].lon);
+          const local = L.latLng(lat, lon);
+          mapa.setView(local, 14);
+
+          // Marcar a localização do usuário
+          L.marker(local).addTo(mapa).bindPopup("Sua localização").openPopup();
+
+          // Encontrar feira mais próxima
+          let feiraMaisProxima = null;
+          let menorDistancia = Infinity;
+
+          feiras.forEach(feira => {
+            const dist = local.distanceTo(L.latLng(feira.coordenadas));
+            if (dist < menorDistancia) {
+              menorDistancia = dist;
+              feiraMaisProxima = feira;
+            }
+          });
+
+          if (feiraMaisProxima) {
+            L.popup()
+              .setLatLng(feiraMaisProxima.coordenadas)
+              .setContent(`<strong>Feira mais próxima:</strong><br>${feiraMaisProxima.nome}<br>${feiraMaisProxima.endereco}<br>${feiraMaisProxima.horario}`)
+              .openOn(mapa);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Erro ao buscar localização.');
+        });
+    }
+  </script>
+
+</body>
+
+</html>

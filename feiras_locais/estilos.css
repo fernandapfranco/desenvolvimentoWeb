@@ -1,0 +1,114 @@
+:root {
+  --verde-principal: #1B4D3E;
+  --verde-hover: #14382D;
+  --fundo-claro: #FAF8F2;
+  --fundo-cartao: #FFFDF7;
+  --texto: #333;
+  --sombra: rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--fundo-claro);
+  color: var(--texto);
+}
+
+/* Cabeçalho com fundo verde e texto branco */
+header {
+  background-color: var(--verde-principal);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px var(--sombra);
+  flex-wrap: wrap;
+  color: white;
+}
+
+header h1 {
+  color: white;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+nav a {
+  margin-left: 1.2rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--fundo-cartao);
+}
+
+.container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.card-inicial {
+  background-color: var(--fundo-cartao);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 5px var(--sombra);
+}
+
+.card-inicial h2 {
+  font-size: 2rem;
+  color: var(--verde-principal);
+  margin-bottom: 1rem;
+}
+
+.card-inicial p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.botao-link {
+  display: inline-block;
+  background-color: var(--verde-principal);
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.botao-link:hover {
+  background-color: var(--verde-hover);
+}
+
+.ilustracoes {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.ilustracoes img {
+  width: 64px;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    margin-top: 1rem;
+  }
+
+  nav a {
+    margin-left: 0;
+    margin-right: 1rem;
+    display: inline-block;
+  }
+}

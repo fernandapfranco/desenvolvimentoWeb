@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrinho - Feiras Locais</title>
+  <style>
+    :root {
+      --verde-principal: #1B4D3E;
+      --verde-hover: #14382D;
+      --fundo-claro: #FAF8F2;
+      --fundo-cartao: #FFFDF7;
+      --texto: #333;
+      --sombra: rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto);
+      line-height: 1.4;
+    }
+
+    header {
+      background-color: var(--verde-principal);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px var(--sombra);
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    nav a {
+      margin-left: 1.2rem;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--fundo-cartao);
+    }
+
+
+    /* Container principal */
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 1.5rem 2rem;
+      background-color: var(--fundo-cartao);
+      border-radius: 14px;
+      box-shadow: 0 3px 7px var(--sombra);
+    }
+
+    h2 {
+      color: var(--verde-principal);
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      border-bottom: 2px solid var(--verde-principal);
+      padding-bottom: 0.3rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid #ccc;
+    }
+
+    th,
+    td {
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 0.3rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 1.1rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 0.3rem;
+      font-size: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    button#finalizar-pedido {
+      background-color: var(--verde-principal);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: block;
+      margin: 1.5rem auto 0;
+      transition: background-color 0.3s;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+    }
+
+    button#finalizar-pedido:hover {
+      background-color: var(--verde-hover);
+    }
+
+    .mensagem-sucesso {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+      font-weight: 600;
+    }
+
+    #campo-cartao {
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="logo.png" alt="Logo Feiras Locais" style="height: 48px;">
+      <h1>Feiras Locais</h1>
+    </div>
+    <nav>
+    <a href="index.html">Início</a>
+    <a href="localize_feira.html">Localize sua Feira</a>
+    <a href="produtores.html">Encontre um Produtor</a>
+    <a href="produtos.html">Feira Online</a>
+    <a href="carrinho.html">Carrinho</a>
+    </nav>
+  </header>
+
+
+  <div class="container">
+    <h2>Itens Reservados</h2>
+    <table id="tabela-itens">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Preço Unit.</th>
+          <th>Produtor</th>
+          <th>Quantidade</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="text-align:right; font-weight:bold;">Total:</td>
+          <td id="total-carrinho">R$ 0,00</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <h2>Dados para Contato</h2>
+    <form id="form-pedido">
+      <label for="nome">Nome completo:</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="telefone">Telefone:</label>
+      <input type="tel" id="telefone" name="telefone" required />
+
+      <h2>Pagamento</h2>
+
+      <label for="metodo-pagamento">Método de pagamento:</label>
+      <select id="metodo-pagamento" name="metodo-pagamento" required>
+        <option value="">Selecione</option>
+        <option value="pix">PIX</option>
+        <option value="cartao">Cartão de Crédito</option>
+        <option value="boleto">Boleto Bancário</option>
+      </select>
+
+      <div id="campo-cartao" style="display:none;">
+        <label for="num-cartao">Número do Cartão:</label>
+        <input type="text" id="num-cartao" name="num-cartao" maxlength="19" placeholder="0000 0000 0000 0000" />
+
+        <label for="validade-cartao" style="margin-top:0.5rem;">Validade:</label>
+        <input type="text" id="validade-cartao" name="validade-cartao" maxlength="5" placeholder="MM/AA" />
+
+        <label for="cvv-cartao" style="margin-top:0.5rem;">CVV:</label>
+        <input type="text" id="cvv-cartao" name="cvv-cartao" maxlength="4" />
+      </div>
+
+      <button type="submit" id="finalizar-pedido">Finalizar Pedido</button>
+    </form>
+
+    <div class="mensagem-sucesso" id="mensagem-sucesso"></div>
+  </div>
+
+  <script>
+    // Puxa os produtos reservados do localStorage
+    let produtosReservados = JSON.parse(localStorage.getItem("produtosReservados")) || [];
+
+    const tabelaCorpo = document.querySelector("#tabela-itens tbody");
+    const totalCarrinho = document.getElementById("total-carrinho");
+    const formPedido = document.getElementById("form-pedido");
+    const mensagemSucesso = document.getElementById("mensagem-sucesso");
+    const metodoPagamento = document.getElementById("metodo-pagamento");
+    const campoCartao = document.getElementById("campo-cartao");
+
+    // Preço string -> float
+    function precoParaNumero(preco) {
+      // Exemplo: "R$ 3,50/kg" -> 3.50
+      const precoLimpo = preco.replace(/[^\d,]/g, '').replace(',', '.');
+      return parseFloat(precoLimpo);
+    }
+
+    // Formata número para preço BRL
+    function numeroParaPreco(num) {
+      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Renderizar itens na tabela com quantidade e subtotal
+    function renderizarCarrinho() {
+      tabelaCorpo.innerHTML = "";
+      produtosReservados.forEach((item, idx) => {
+        if (!item.quantidade) item.quantidade = 1;
+        const precoUnit = precoParaNumero(item.preco);
+        const subtotal = precoUnit * item.quantidade;
+        const tr = document.createElement("tr"); tr.innerHTML = `
+      <td>${item.nome}</td>
+      <td>${numeroParaPreco(precoUnit)}</td>
+      <td>${item.produtor}</td>
+      <td><input type="number" min="1" value="${item.quantidade}" data-index="${idx}" /></td>
+      <td>${numeroParaPreco(subtotal)}</td>`;
+
+        tabelaCorpo.appendChild(tr);
+      });
+
+      atualizarTotal();
+      // Adicionar evento de mudança nas quantidades
+      const inputsQtd = tabelaCorpo.querySelectorAll("input[type='number']");
+      inputsQtd.forEach(input => {
+        input.addEventListener("change", e => {
+          let i = e.target.dataset.index;
+          let val = parseInt(e.target.value);
+          if (isNaN(val) || val < 1) {
+            val = 1;
+            e.target.value = val;
+          }
+          produtosReservados[i].quantidade = val;
+          localStorage.setItem("produtosReservados", JSON.stringify(produtosReservados));
+          renderizarCarrinho();
+        });
+      });
+    }
+
+    function atualizarTotal() {
+      let total = 0;
+      produtosReservados.forEach(item => {
+        const precoUnit = precoParaNumero(item.preco);
+        total += precoUnit * item.quantidade;
+      });
+      totalCarrinho.textContent = numeroParaPreco(total);
+    }
+
+    // Mostrar ou esconder campo cartão conforme método
+    metodoPagamento.addEventListener("change", () => {
+      if (metodoPagamento.value === "cartao") {
+        campoCartao.style.display = "block";
+        // Tornar campos de cartão obrigatórios
+        document.getElementById("num-cartao").required = true;
+        document.getElementById("validade-cartao").required = true;
+        document.getElementById("cvv-cartao").required = true;
+      } else {
+        campoCartao.style.display = "none";
+        document.getElementById("num-cartao").required = false;
+        document.getElementById("validade-cartao").required = false;
+        document.getElementById("cvv-cartao").required = false;
+      }
+    });
+
+    // Finalizar pedido
+    formPedido.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      if (produtosReservados.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+      }
+
+      // Validação simples do formulário já é feita pelo required no HTML
+
+      // Simulação de envio do pedido
+      mensagemSucesso.style.display = "block";
+      mensagemSucesso.textContent = "Pedido finalizado com sucesso! Obrigado pela sua compra.";
+
+      // Limpar carrinho e formulário
+      produtosReservados = [];
+      localStorage.removeItem("produtosReservados");
+      renderizarCarrinho();
+      formPedido.reset();
+      campoCartao.style.display = "none";
+
+      // Remover mensagem após 5s
+      setTimeout(() => {
+        mensagemSucesso.style.display = "none";
+      }, 5000);
+    });
+
+    // Inicializa tabela com dados atuais
+    renderizarCarrinho();
+  </script>
+</body>
+
+</html>

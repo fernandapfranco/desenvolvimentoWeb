@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtores - Feiras Locais</title>
+  <style>
+    :root {
+      --verde-principal: #1B4D3E;
+      --verde-hover: #14382D;
+      --fundo-claro: #FAF8F2;
+      --fundo-cartao: #FFFDF7;
+      --texto: #333;
+      --sombra: rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto);
+    }
+
+    header {
+      background-color: var(--verde-principal);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px var(--sombra);
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    nav a {
+      margin-left: 1.2rem;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--fundo-cartao);
+    }
+
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .card-produtores {
+      background-color: var(--fundo-cartao);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 5px var(--sombra);
+    }
+
+    .card-produtores h2 {
+      color: var(--verde-principal);
+      margin-bottom: 1.5rem;
+    }
+
+    .lista-produtores {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .produtor {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px var(--sombra);
+      flex-wrap: wrap;
+    }
+
+    .produtor-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .produtor img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .produtor-dados {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .produtor-nome {
+      font-weight: bold;
+      color: var(--verde-principal);
+    }
+
+    .produtor-cidade,
+    .produtor-tel,
+    .produtor-site {
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .produtor button {
+      background-color: var(--verde-principal);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .produtor button:hover {
+      background-color: var(--verde-hover);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal h3 {
+      margin-top: 0;
+      color: var(--verde-principal);
+    }
+
+    .modal ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .modal ul li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .close {
+      float: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 1rem;
+      }
+
+      .produtor {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .produtor button {
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="logo.png" alt="Logo Feiras Locais" style="height: 48px;">
+      <h1>Feiras Locais</h1>
+    </div>
+    <nav>
+    <a href="index.html">Início</a>
+    <a href="localize_feira.html">Localize sua Feira</a>
+    <a href="produtores.html">Encontre um Produtor</a>
+    <a href="produtos.html">Feira Online</a>
+    <a href="carrinho.html">Carrinho</a>
+    </nav>
+  </header>
+
+
+  <div class="container">
+    <div class="card-produtores">
+      <h2>Lista de Produtores</h2>
+      <div class="lista-produtores">
+
+        <!-- João da Silva -->
+        <div class="produtor">
+          <div class="produtor-info">
+            <img src="avataaars.png" alt="Maria Oliveira" />
+            <div class="produtor-dados">
+              <span class="produtor-nome">Maria Oliveira</span>
+              <span class="produtor-cidade">Porto Alegre, RS</span>
+              <span class="produtor-tel">📞 (51) 99999-1111</span>
+              <span class="produtor-site">🌐 <a href="#">www.mariaoliveira.com</a></span>
+            </div>
+          </div>
+          <button onclick="abrirModal('maria')">Ver Produtos</button>
+        </div>
+
+        <!-- Maria Oliveira -->
+        <div class="produtor">
+          <div class="produtor-info">
+            <img src="avataaars (1).png" alt="João da Silva" />
+            <div class="produtor-dados">
+              <span class="produtor-nome">João da Silva</span>
+              <span class="produtor-cidade">Bom Princípio, RS</span>
+              <span class="produtor-tel">📞 (51) 88888-2222</span>
+              <span class="produtor-site">🌐 <a href="#">www.joaodasilva.com</a></span>
+            </div>
+          </div>
+          <button onclick="abrirModal('joao')">Ver Produtos</button>
+        </div>
+
+        <!-- Carlos Pereira -->
+        <div class="produtor">
+          <div class="produtor-info">
+            <img src="avataaars (2).png" alt="Carlos Pereira" />
+            <div class="produtor-dados">
+              <span class="produtor-nome">Carlos Pereira</span>
+              <span class="produtor-cidade">Gramado, RS</span>
+              <span class="produtor-tel">📞 (54) 77777-3333</span>
+              <span class="produtor-site">🌐 <a href="#">www.carlospereira.com</a></span>
+            </div>
+          </div>
+          <button onclick="abrirModal('carlos')">Ver Produtos</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <h3 id="modal-title"></h3>
+      <ul id="modal-lista-produtos"></ul>
+    </div>
+  </div>
+
+  <script>
+    const produtos = {
+      maria: [
+        'Alface - R$ 3,00',
+        'Tomate - R$ 5,00',
+        'Cenoura - R$ 4,00',
+        'Batata Doce - R$ 6,00',
+        'Rúcula - R$ 3,50'
+      ],
+      joao: [
+        'Morango - R$ 10,00',
+        'Mel - R$ 15,00',
+        'Abóbora - R$ 7,00',
+        'Couve - R$ 3,50',
+        'Banana - R$ 6,00'
+      ],
+      carlos: [
+        'Maçã - R$ 8,00',
+        'Queijo Colonial - R$ 20,00',
+        'Ovos Caipira (dúzia) - R$ 10,00',
+        'Pão Caseiro - R$ 12,00',
+        'Geleia Artesanal - R$ 14,00'
+      ]
+    };
+
+    function abrirModal(produtor) {
+      const titulo = {
+        maria: 'Produtos de Maria Oliveira',
+        joao: 'Produtos de João da Silva',
+        carlos: 'Produtos de Carlos Pereira'
+      };
+
+      document.getElementById('modal-title').innerText = titulo[produtor];
+      const lista = document.getElementById('modal-lista-produtos');
+      lista.innerHTML = '';
+
+      produtos[produtor].forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        lista.appendChild(li);
+      });
+
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    function fecharModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    window.onclick = function (event) {
+      if (event.target === document.getElementById('modal')) {
+        fecharModal();
+      }
+    };
+  </script>
+
+</body>
+
+</html>

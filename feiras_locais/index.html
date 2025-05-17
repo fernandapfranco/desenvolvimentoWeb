@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feiras Locais</title>
+  <style>
+    :root {
+      --verde-principal: #1B4D3E;
+      --verde-hover: #14382D;
+      --fundo-claro: #FAF8F2;
+      --fundo-cartao: #FFFDF7;
+      --texto: #333;
+      --sombra: rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto);
+    }
+
+    
+    header {
+      background-color: var(--verde-principal);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px var(--sombra);
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    nav a {
+      margin-left: 1.2rem;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--fundo-cartao);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .card-inicial {
+      background-color: var(--fundo-cartao);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 5px var(--sombra);
+    }
+
+    .card-inicial h2 {
+      font-size: 2rem;
+      color: var(--verde-principal);
+      margin-bottom: 1rem;
+    }
+
+    .card-inicial p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .botao-link {
+      display: inline-block;
+      background-color: var(--verde-principal);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .botao-link:hover {
+      background-color: var(--verde-hover);
+    }
+
+    .ilustracoes {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 1rem;
+    }
+
+    .ilustracoes img {
+      width: 64px;
+      height: auto;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 1rem;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 1rem;
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <img src="logo.png" alt="Logo Feiras Locais" style="height: 48px;">
+    <h1>Feiras Locais</h1>
+  </div>
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="localize_feira.html">Localize sua Feira</a>
+    <a href="produtores.html">Encontre um Produtor</a>
+    <a href="produtos.html">Feira Online</a>
+    <a href="carrinho.html">Carrinho</a>
+  </nav>
+</header>
+
+  <div class="container">
+    <div class="card-inicial">
+      <h2>Feiras Locais e Agricultura Familiar</h2>
+      <p>Conectando produtores rurais e consumidores locais.</p>
+      <a href="localize_feira.html" class="botao-link">Ver Feiras</a>
+      <div class="ilustracoes">
+        <img src="cenoura.png" alt="Cenoura" />
+        <img src="batata.png" alt="Batata" />
+        <img src="tomate.png" alt="Tomate" />
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

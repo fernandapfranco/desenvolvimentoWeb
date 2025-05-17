@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos - Feiras Locais</title>
+  <style>
+    :root {
+      --verde-principal: #1B4D3E;
+      --verde-hover: #14382D;
+      --fundo-claro: #FAF8F2;
+      --fundo-cartao: #FFFDF7;
+      --texto: #333;
+      --sombra: rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto);
+    }
+
+    header {
+      background-color: var(--verde-principal);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px var(--sombra);
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    nav a {
+      margin-left: 1.2rem;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--fundo-cartao);
+    }
+
+    /* Estilos da seção de Produtos */
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .card-produtos {
+      background-color: var(--fundo-cartao);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 5px var(--sombra);
+    }
+
+    .card-produtos h2 {
+      color: var(--verde-principal);
+      margin-bottom: 1.5rem;
+    }
+
+    .filtros {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filtros label {
+      font-weight: 600;
+      margin-right: 0.3rem;
+    }
+
+    .lista-produtos {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .produto {
+      display: flex;
+      justify-content: space-between;
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px var(--sombra);
+      align-items: center;
+    }
+
+    .produto-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .produto img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .produto-nome {
+      font-weight: bold;
+      color: var(--verde-principal);
+    }
+
+    .produto-preco {
+      font-size: 0.9rem;
+      color: var(--texto);
+    }
+
+    .produto-produtor {
+      font-size: 0.85rem;
+      color: #555;
+      font-style: italic;
+    }
+
+    .checkbox-reserva {
+      margin-right: 1rem;
+      transform: scale(1.3);
+      cursor: pointer;
+    }
+
+    #btn-reservar {
+      margin-top: 1rem;
+      background-color: var(--verde-principal);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    #btn-reservar:hover {
+      background-color: var(--verde-hover);
+    }
+
+    /* Modal reserva */
+    #modal-reserva {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #modal-reserva.active {
+      display: flex;
+    }
+
+    .modal-conteudo {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .modal-conteudo h3 {
+      margin-top: 0;
+      color: var(--verde-principal);
+    }
+
+    .modal-conteudo ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 1rem 0;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .modal-conteudo button {
+      margin: 0.5rem;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    #fechar-modal {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    #fechar-modal:hover {
+      background-color: #bbb;
+    }
+
+    #ir-carrinho {
+      background-color: var(--verde-principal);
+      color: white;
+    }
+
+    #ir-carrinho:hover {
+      background-color: var(--verde-hover);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 1rem;
+      }
+
+      .produto {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="logo.png" alt="Logo Feiras Locais" style="height: 48px;">
+      <h1>Feiras Locais</h1>
+    </div>
+    <nav>
+    <a href="index.html">Início</a>
+    <a href="localize_feira.html">Localize sua Feira</a>
+    <a href="produtores.html">Encontre um Produtor</a>
+    <a href="produtos.html">Feira Online</a>
+    <a href="carrinho.html">Carrinho</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="card-produtos">
+      <h2>Lista de Produtos</h2>
+
+      <div class="filtros">
+        <div>
+          <label for="filtro-feira">Feira:</label>
+          <input type="text" id="filtro-feira" placeholder="Pesquisar feira" />
+        </div>
+        <div>
+          <label for="filtro-produtor">Produtor:</label>
+          <input type="text" id="filtro-produtor" placeholder="Pesquisar produtor" />
+        </div>
+        <div>
+          <label for="filtro-tipo">Tipo:</label>
+          <select id="filtro-tipo">
+            <option value="">Todos</option>
+            <option value="hortaliça">Hortaliça</option>
+            <option value="orgânico">Orgânico</option>
+            <option value="fruta">Fruta</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="lista-produtos" id="lista-produtos">
+        <!-- Produtos vão ser inseridos aqui via JS -->
+      </div>
+
+      <button id="btn-reservar">Reservar</button>
+    </div>
+  </div>
+
+  <!-- Modal de reserva -->
+  <div id="modal-reserva">
+    <div class="modal-conteudo">
+      <h3>Confirmação de Reserva</h3>
+      <p>Você selecionou os seguintes produtos:</p>
+      <ul id="lista-modal"></ul>
+      <button id="fechar-modal">Cancelar</button>
+      <button id="ir-carrinho">Ir para Carrinho</button>
+    </div>
+  </div>
+
+  <script>
+    // Dados dos produtos
+    const produtos = [
+      {
+        nome: "Cenoura Orgânica",
+        preco: "R$ 3,50/kg",
+        produtor: "João da Silva",
+        tipo: "orgânico",
+        feira: "Feira do Partenon",
+        imagem: "cenoura.png"
+      },
+      {
+        nome: "Batata Doce",
+        preco: "R$ 2,80/kg",
+        produtor: "Maria Oliveira",
+        tipo: "hortaliça",
+        feira: "Feira do Menino Deus",
+        imagem: "batata.png"
+      },
+      {
+        nome: "Tomate Fresco",
+        preco: "R$ 5,00/kg",
+        produtor: "Carlos Pereira",
+        tipo: "hortaliça",
+        feira: "Feira do Bom Fim",
+        imagem: "tomate.png"
+      }
+    ];
+
+    // Elementos filtros e lista
+    const filtroFeira = document.getElementById("filtro-feira");
+    const filtroProdutor = document.getElementById("filtro-produtor");
+    const filtroTipo = document.getElementById("filtro-tipo");
+    const listaProdutos = document.getElementById("lista-produtos");
+
+    // Função para renderizar produtos filtrados
+    function renderizarProdutos() {
+      const feiraFiltro = filtroFeira.value.toLowerCase();
+      const produtorFiltro = filtroProdutor.value.toLowerCase();
+      const tipoFiltro = filtroTipo.value.toLowerCase();
+
+      listaProdutos.innerHTML = "";
+
+      produtos.forEach((produto, index) => {
+        if (
+          (produto.feira.toLowerCase().includes(feiraFiltro)) &&
+          (produto.produtor.toLowerCase().includes(produtorFiltro)) &&
+          (tipoFiltro === "" || produto.tipo.toLowerCase() === tipoFiltro)
+        ) {
+          const divProduto = document.createElement("div");
+          divProduto.classList.add("produto");
+
+          divProduto.innerHTML = `
+            <input type="checkbox" class="checkbox-reserva" data-index="${index}" />
+            <div class="produto-info">
+              <img src="${produto.imagem}" alt="${produto.nome}" />
+              <div>
+                <div class="produto-nome">${produto.nome}</div>
+                <div class="produto-preco">${produto.preco}</div>
+                <div class="produto-produtor">Produtor: ${produto.produtor}</div>
+                <div class="produto-produtor">Feira: ${produto.feira}</div>
+                <div class="produto-produtor">Tipo: ${produto.tipo}</div>
+              </div>
+            </div>
+          `;
+
+          listaProdutos.appendChild(divProduto);
+        }
+      });
+
+      // Se não mostrar nenhum produto
+      if (listaProdutos.innerHTML === "") {
+        listaProdutos.innerHTML = "<p>Nenhum produto encontrado.</p>";
+      }
+    }
+
+    // Event listeners para filtros
+    filtroFeira.addEventListener("input", renderizarProdutos);
+    filtroProdutor.addEventListener("input", renderizarProdutos);
+    filtroTipo.addEventListener("change", renderizarProdutos);
+
+    // Modal reserva elementos
+    const btnReservar = document.getElementById("btn-reservar");
+    const modalReserva = document.getElementById("modal-reserva");
+    const listaModal = document.getElementById("lista-modal");
+    const fecharModal = document.getElementById("fechar-modal");
+    const irCarrinho = document.getElementById("ir-carrinho");
+
+    // Produtos selecionados para reserva
+    let produtosSelecionados = [];
+
+    // Abrir modal com produtos selecionados
+    btnReservar.addEventListener("click", () => {
+      const checkboxes = document.querySelectorAll(".checkbox-reserva");
+      produtosSelecionados = [];
+
+      checkboxes.forEach(chk => {
+        if (chk.checked) {
+          const idx = parseInt(chk.getAttribute("data-index"));
+          produtosSelecionados.push(produtos[idx]);
+        }
+      });
+
+      if (produtosSelecionados.length === 0) {
+        alert("Por favor, selecione ao menos um produto para reservar.");
+        return;
+      }
+
+      listaModal.innerHTML = "";
+      produtosSelecionados.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = `${p.nome} - ${p.preco} (${p.produtor})`;
+        listaModal.appendChild(li);
+      });
+
+      modalReserva.classList.add("active");
+    });
+
+    // Fechar modal
+    fecharModal.addEventListener("click", () => {
+      modalReserva.classList.remove("active");
+    });
+
+    // Ir para carrinho - salvar reserva e abrir página
+    irCarrinho.addEventListener("click", () => {
+      // Salvar reserva no localStorage para usar na página do carrinho
+      localStorage.setItem("produtosReservados", JSON.stringify(produtosSelecionados));
+      window.location.href = "carrinho.html"; // Nome da página do carrinho
+    });
+
+    // Renderizar produtos ao carregar
+    renderizarProdutos();
+  </script>
+</body>
+
+</html>
